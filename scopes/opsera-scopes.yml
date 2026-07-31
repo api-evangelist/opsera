@@ -1,0 +1,18 @@
+generated: '2026-07-20'
+method: searched
+source: https://docs.opsera.io/api-platform-and-integration/opsera-api-platform
+docs: https://docs.opsera.io/api-platform-and-integration/opsera-api-platform/personal-access-tokens
+model: personal-access-token-scopes
+note: >-
+  Opsera Personal Access Tokens carry a single predefined scope selected at creation time. The
+  scope limits which family of APIs the token may call (a pipeline-scoped token can ONLY perform
+  pipeline actions). Scope match is combined with the token owner's RBAC before access is granted;
+  a mismatch or insufficient permission returns 403 Forbidden. These are token scopes on a JWT
+  bearer model, not OAuth2 authorization flows.
+scopes:
+  - scope: API Access
+    description: General access required to call the Opsera platform APIs (e.g. pipeline run/status, MCP server).
+    sources: [docs]
+  - scope: Pipeline Access
+    description: Permits pipeline actions such as triggering a run and reading run status.
+    sources: [docs]

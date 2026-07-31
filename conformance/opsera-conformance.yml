@@ -1,0 +1,24 @@
+generated: '2026-07-20'
+method: searched
+source: https://docs.opsera.io/
+standards:
+  - id: oauth2-oidc-sso
+    conforms: true
+    evidence: Okta and Azure AD (Entra ID) SSO documented for portal authentication.
+  - id: scim
+    conforms: true
+    evidence: SCIM-based user provisioning and role management (Microsoft Azure) documented.
+  - id: jwt-bearer
+    conforms: true
+    evidence: Personal Access Tokens are standard JWT bearer tokens (Authorization header).
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: REST responses use a custom {status,message} envelope, not application/problem+json.
+  - id: rbac
+    conforms: true
+    evidence: Object-level role-based access control enforced on every token-authenticated API call.
+compliance_programs:
+  note: >-
+    Opsera markets compliance automation (SOC 2 / HIPAA / ISO 27001 checks) as a product capability
+    for customers. No public trust center or first-party certification attestation page was found
+    during this pass, so no Compliance pointer is emitted.

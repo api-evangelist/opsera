@@ -1,0 +1,35 @@
+generated: '2026-07-20'
+method: searched
+source: https://docs.opsera.io/api-platform-and-integration/opsera-api-platform
+docs: https://docs.opsera.io/api-platform-and-integration
+authentication:
+  style: jwt-bearer
+  header: 'Authorization: Bearer <token>'
+  token: Opsera Personal Access Token (scoped, RBAC-bound)
+  ref: authentication/opsera-authentication.yml
+base_url: https://app.opsera.io
+api_style: RESTful JSON over HTTPS; action endpoints under /api/v1/*
+pagination:
+  style: record-cap
+  detail: GET requests for tools or pipelines are limited to a maximum of 1000 records.
+error_envelope:
+  shape: json-object
+  fields: [status, message]
+  detail: >-
+    Responses carry a status ("executed" / "success" / "failed") plus a human-readable message;
+    action endpoints may also return a runCount. Access failures return HTTP 403 Forbidden.
+  ref: errors/opsera-problem-types.yml
+idempotency:
+  supported: false
+  note: No documented idempotency-key header for the public REST API as of this capture.
+versioning:
+  scheme: uri-path
+  current: v1
+  detail: Endpoints are namespaced under /api/v1/; Audit Logging API is offered as V1 and V2.
+rate_limiting:
+  documented: false
+notes: >-
+  Cross-cutting semantics captured from the Opsera API Platform documentation. The same JWT bearer
+  Personal Access Token authenticates both the REST API and the hosted MCP server
+  (agent.opsera.io/mcp). Inbound webhooks (GitHub, Jira, PagerDuty, etc.) are an ingestion feature
+  of the platform, not a consumer-subscribable outbound event surface.

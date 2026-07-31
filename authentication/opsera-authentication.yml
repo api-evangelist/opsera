@@ -1,0 +1,34 @@
+generated: '2026-07-20'
+method: searched
+source: https://docs.opsera.io/api-platform-and-integration/opsera-api-platform/personal-access-tokens
+docs: https://docs.opsera.io/api-platform-and-integration/opsera-api-platform/personal-access-tokens
+summary:
+  types: [http]
+  http_schemes: [bearer]
+  bearer_format: JWT
+  token_model: personal-access-token
+  api_key_in: [header]
+schemes:
+  - name: opseraPersonalAccessToken
+    type: http
+    scheme: bearer
+    bearerFormat: JWT
+    in: header
+    header: Authorization
+    example: 'Authorization: Bearer <token>'
+    description: >-
+      Opsera Personal Access Tokens are standard JWT bearer tokens generated in the Opsera Portal
+      (Profile -> Access Tokens). Each token is created with a predefined scope, an expiration date,
+      and is owned by the generating user; all API calls apply that user's RBAC. A Power User (or
+      higher) role is required for list operations; individual object actions are evaluated against
+      the object's RBAC. Tokens are never stored by Opsera (only metadata) and can be expired early.
+      Validation layers: authentic+active token -> valid owner -> not de-activated -> scope match ->
+      object-level access. Failure returns HTTP 403 Forbidden.
+    sources: [docs]
+sso:
+  - Okta (SAML/OIDC)
+  - Azure AD (Entra ID) SSO
+  - SCIM-based user provisioning (Azure)
+notes: >-
+  The interactive portal (portal.opsera.io) authenticates end users via Okta / enterprise SSO;
+  programmatic REST + MCP access uses JWT bearer Personal Access Tokens.

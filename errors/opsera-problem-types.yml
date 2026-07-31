@@ -1,0 +1,28 @@
+generated: '2026-07-20'
+method: searched
+source: https://docs.opsera.io/api-platform-and-integration/opsera-api-platform
+format: custom-json
+envelope:
+  fields: [status, message, runCount]
+  detail: >-
+    Opsera REST responses are JSON objects with a status string ("executed", "success", "failed"),
+    a human-readable message, and (for pipeline run actions) a runCount. This is not RFC 9457
+    application/problem+json.
+problems:
+  - status: 403
+    title: Forbidden
+    detail: >-
+      Returned when the access token uses the wrong scope, the token owner lacks permission on the
+      target object (RBAC), the token is expired/de-activated, or the user is not a Power User for
+      list operations.
+    remediation: Regenerate a token with the matching scope and ensure the owner has object access.
+  - condition: paused-pipeline
+    example_status: failed
+    title: Pipeline in paused state
+    detail: >-
+      A pipeline run request against a pipeline in a paused state returns status "failed" with a
+      message that another job will not start until the pending status is resolved.
+notes: >-
+  Derived from the documented request/response samples of the Opsera API Platform. Opsera publishes
+  no OpenAPI spec, so this catalog reflects the documented status/message envelope rather than a
+  formal per-endpoint error registry.

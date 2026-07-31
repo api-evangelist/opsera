@@ -1,0 +1,16 @@
+generated: '2026-07-20'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: opsera.ai
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct  9 12:33:37 2026 GMT
+  hsts: false
+domains:
+- domain: opsera.ai
+  dnssec: false
+  caa: []
+  spf: false
+  dmarc: true
+  dmarc_policy: none

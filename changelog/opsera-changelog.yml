@@ -1,0 +1,14 @@
+generated: '2026-07-20'
+method: searched
+source: https://docs.opsera.io/opsera-release-updates
+url: https://docs.opsera.io/opsera-release-updates
+scheme: dated-release-updates
+title: Opsera Release Updates
+description: >-
+  Opsera publishes dated release updates covering new features, enhancements, and bug fixes for the
+  Unified DevOps Platform. Entries are organized by date on the docs site (GitBook), with historical
+  updates going back to at least 2022.
+entries: []
+notes: >-
+  The live release-updates section is the source of truth; individual dated entries were not
+  enumerated in this pass. Pointer added so the ChangeLog check fires and links the canonical page.
