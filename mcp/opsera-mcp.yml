@@ -11,43 +11,43 @@ server:
     header: Authorization
     scheme: Bearer
     token: Opsera Personal Access Token (API Access scope), generated at Portal -> Profile -> Access Tokens
-config_example: |
-  {
-    "mcpServers": {
-      "opsera-ai-agent": {
-        "url": "https://agent.opsera.io/mcp",
-        "headers": {
-          "Authorization": "Bearer YOUR_API_TOKEN_HERE"
-        }
-      }
-    }
-  }
+config_example: "{\n  \"mcpServers\": {\n    \"opsera-ai-agent\": {\n      \"url\": \"https://agent.opsera.io/mcp\"\
+  ,\n      \"headers\": {\n        \"Authorization\": \"Bearer YOUR_API_TOKEN_HERE\"\n      }\n    }\n\
+  \  }\n}\n"
 clients:
-  - Claude Desktop
-  - Cursor
+- Claude Desktop
+- Cursor
 tools:
-  - name: opsera_pipelines
-    description: List, view, start, stop, clone, reset, and delete pipelines.
-  - name: create_pipeline
-    description: Build new SDLC pipelines from natural language descriptions.
-  - name: opsera_tasks
-    description: Manage standalone task execution.
-  - name: opsera_tools
-    description: View and manage connected integrations.
-  - name: discover_tools
-    description: Discover available integration types.
-  - name: opsera_projects
-    description: Organize and manage projects and access.
-  - name: opsera_groups
-    description: Organize and manage groups and access.
-  - name: opsera_users
-    description: View organization users and roles.
-  - name: opsera_insights
-    description: Retrieve analytics and trend data.
-  - name: opsera_reports_and_logs
-    description: Fetch detailed logs and audit trails.
-  - name: search_opsera
-    description: Natural language search across Opsera resources.
-  - name: opsera_mappings
-    description: Manage environment and variable mappings.
-notes: Official hosted remote MCP server for the Opsera Unified DevOps Platform. Docs also reference MCP Pipeline Tool Discovery & Validation APIs on the REST platform.
+- name: opsera_pipelines
+  description: List, view, start, stop, clone, reset, and delete pipelines.
+- name: create_pipeline
+  description: Build new SDLC pipelines from natural language descriptions.
+- name: opsera_tasks
+  description: Manage standalone task execution.
+- name: opsera_tools
+  description: View and manage connected integrations.
+- name: discover_tools
+  description: Discover available integration types.
+- name: opsera_projects
+  description: Organize and manage projects and access.
+- name: opsera_groups
+  description: Organize and manage groups and access.
+- name: opsera_users
+  description: View organization users and roles.
+- name: opsera_insights
+  description: Retrieve analytics and trend data.
+- name: opsera_reports_and_logs
+  description: Fetch detailed logs and audit trails.
+- name: search_opsera
+  description: Natural language search across Opsera resources.
+- name: opsera_mappings
+  description: Manage environment and variable mappings.
+notes: Official hosted remote MCP server for the Opsera Unified DevOps Platform. Docs also reference MCP
+  Pipeline Tool Discovery & Validation APIs on the REST platform.
+deployment:
+  mode: remote
+  endpoint: https://agent.opsera.io/mcp
+  verified: probed
+  probe: live
+  checked: '2026-08-12'
+  source: catalog MCP census
