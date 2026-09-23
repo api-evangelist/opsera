@@ -1,0 +1,29 @@
+# Front Door AI Index — opsera — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: opsera
+  lexicon_version: '1.0'
+  probed_at: '2026-09-17'
+  host: opsera.ai
+  final_host: opsera.ai
+  ownership: own
+  owner: opsera
+  shares_host_with: null
+  inherited_from: null
+  verdict: scored
+  score: 22
+  host_score: 22
+  density: 30.43
+  words: 723
+  tiers:
+    agentic: 2
+    core: 20
+    model: 0
+  ambiguous: 9
+  top_terms:
+    AI: 20
+    intelligence: 5
+    agent: 3
+    copilot: 2
+    automation: 1
