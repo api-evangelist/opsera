@@ -2,6 +2,13 @@
   "repo": "opsera",
   "feeds": [
     {
+      "source": "https://opsera.ai/blog/",
+      "feed_url": "https://opsera.ai/blog/",
+      "title": "",
+      "saved": 0,
+      "method": "none"
+    },
+    {
       "source": "https://docs.opsera.io/opsera-release-updates",
       "feed_url": "https://docs.opsera.io/opsera-release-updates",
       "title": "",
@@ -10,5 +17,5 @@
     }
   ],
   "post_count": 0,
-  "fetched": "2026-10-03T12:30:02Z"
+  "fetched": "2026-10-10T13:15:00Z"
 }
