@@ -1,0 +1,601 @@
+{
+  "endpoint": "https://agent.opsera.io/mcp",
+  "captured": "2026-10-20",
+  "method": "initialize + tools/list (anonymous, no tool called; roadmap#992)",
+  "protocol_version": "2025-06-18",
+  "server_info": {
+    "name": "Opsera API",
+    "version": "2.0.0"
+  },
+  "result": {
+    "tools": [
+      {
+        "description": "Group management: list, get, create, delete, get_memberships, add/remove/patch members. See docs/API_REFERENCE.md.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "operation": {
+              "type": "string",
+              "description": "One of: list, get, create, delete, get_memberships, add_members, remove_members, patch_members"
+            },
+            "groupName": {
+              "type": "string",
+              "description": "Required for get, delete, get_memberships, add_members, remove_members, patch_members. Path parameter."
+            },
+            "search": {
+              "type": "string",
+              "description": "Query param for list."
+            },
+            "id": {
+              "type": "string",
+              "description": "Query param for list (comma-separated group IDs)."
+            },
+            "body": {
+              "description": "Request body: for create (group object), add_members/remove_members (array of user IDs), patch_members (patch payload)."
+            }
+          },
+          "required": [
+            "operation"
+          ],
+          "additionalProperties": false
+        },
+        "name": "opsera_groups"
+      },
+      {
+        "description": "Insights: dashboards, filters, audit logs, KPIs, tool mappings. See docs/API_REFERENCE.md for all operations.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "operation": {
+              "type": "string",
+              "description": "e.g. dashboards_list, dashboards_get, filters_create, audit_most_viewed, kpis_list, tool_mappings_supported, ..."
+            },
+            "id": {
+              "type": "string",
+              "description": "Path param: dashboards get/update/delete, filters update/delete, audit_by_id."
+            },
+            "groupId": {
+              "type": "string",
+              "description": "Path param: filters_get."
+            },
+            "filterId": {
+              "type": "string",
+              "description": "Path param: filters_get, filters_update, filters_delete."
+            },
+            "dashboardId": {
+              "type": "string",
+              "description": "Path param: audit_by_dashboard, audit_dashboard_stats, audit_dashboard_view."
+            },
+            "mappingId": {
+              "type": "string",
+              "description": "Path param: audit_by_mapping."
+            },
+            "operationId": {
+              "type": "string",
+              "description": "Path param: tool_mappings_operation_status."
+            },
+            "limit": {
+              "type": "string",
+              "description": "Query: dashboards_list."
+            },
+            "search": {
+              "type": "string",
+              "description": "Query: dashboards_list."
+            },
+            "categories": {
+              "type": "string",
+              "description": "Query: dashboards_list."
+            },
+            "category": {
+              "type": "string",
+              "description": "Query: kpis_list."
+            },
+            "body": {
+              "type": "object",
+              "description": "Request body for create/update/post operations.",
+              "additionalProperties": true
+            }
+          },
+          "required": [
+            "operation"
+          ],
+          "additionalProperties": false
+        },
+        "name": "opsera_insights"
+      },
+      {
+        "description": "Data mappings: list, get, create, update. See docs/API_REFERENCE.md.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "operation": {
+              "type": "string",
+              "description": "One of: list, get, create, update"
+            },
+            "id": {
+              "type": "string",
+              "description": "Required for get/update. Path parameter (mapping ID)."
+            },
+            "body": {
+              "type": "object",
+              "description": "Request body for create/update.",
+              "additionalProperties": true
+            }
+          },
+          "required": [
+            "operation"
+          ],
+          "additionalProperties": false
+        },
+        "name": "opsera_mappings"
+      },
+      {
+        "description": "Pipeline parameters: reusable, configurable key-value pairs scoped to a pipeline. Parameters can be referenced by pipeline steps during execution for dynamic configuration (environment variables, secrets, build flags, deployment targets). Use list to see all parameters for a pipeline before triggering a run. Use create/update to set runtime values. Use get_value for lightweight value retrieval. Parameter types: string (default), number, boolean, secret (masked in logs). See docs/API_REFERENCE.md.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "operation": {
+              "type": "string",
+              "description": "One of: list, get, create, update, delete, get_value. list: all parameters for a pipeline. get: single parameter by ID. create: new parameter. update: modify existing. delete: remove parameter. get_value: retrieve only the parameter value."
+            },
+            "pipelineId": {
+              "type": "string",
+              "description": "Required for list and create. The pipeline ID (24-char MongoDB ObjectId)."
+            },
+            "parameterId": {
+              "type": "string",
+              "description": "Required for get, update, delete, get_value. The parameter ID (24-char MongoDB ObjectId)."
+            },
+            "body": {
+              "type": "object",
+              "description": "Request body for create/update. Fields: name (string, required), value (string/number/boolean/object), type (string|number|boolean|secret, default string), description (optional).",
+              "additionalProperties": true
+            }
+          },
+          "required": [
+            "operation"
+          ],
+          "additionalProperties": false
+        },
+        "name": "opsera_pipeline_parameters"
+      },
+      {
+        "description": "Pipelines: monitor runs, security audit, run duration stats, configuration, templates, and lifecycle actions. Execution questions (image tag, artifact, commit SHA): list_runs then get_run (view=artifacts by default). Do not call get afterward. security_audit: find pipelines with disabled security steps; set includeStats=true to include each pipeline average/min/max run duration. runs_stats: average/min/max run duration for one pipelineId or batch pipelineIds (no security filter). get with view=security audits one known pipeline; get without view is full config (large). list is a lightweight catalog. list_runs is recent run timing. action runs mutations. See docs/API_REFERENCE.md.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "operation": {
+              "type": "string",
+              "description": "One of list, get, list_runs, get_run, security_audit, runs_stats, validate, step_metadata, pipeline_run_notification, settings_demo, settings_source, templates_list, templates_get, action. list: catalog. get: full stage config (large; design/edit; view=security for one-pipeline security step audit). list_runs: recent run timing. get_run: artifacts/image tags/commitSha (do not also call get for execution questions). security_audit: pipelines with disabled security steps; set includeStats=true to attach each pipeline avg/min/max duration. runs_stats: avg/min/max duration for one pipelineId or batch pipelineIds (no security filter). action: run, stop, create, update."
+            },
+            "action": {
+              "type": "string",
+              "description": "For operation action: run, stop, reset, delete, update, status, approve, reject, create."
+            },
+            "target": {
+              "type": "string",
+              "description": "For operation action: pipeline ID (single) or comma-separated IDs for batch."
+            },
+            "settings": {
+              "type": "object",
+              "description": "For operation action: (create/update) workflow with source and plan; (run) dynamic runtime overrides. Convenience fields branch, repositoryTag, and repository auto-build settings — use them instead of manually constructing this map. When needed, raw settings keys: branch (workflow source), repositoryTag (ArgoCD image tag), stepParameters (per-repo overrides keyed by Org/Repo). NOTE: pipeline parameters are NOT overridden via settings — update them first with opsera_pipeline_parameters, then trigger the run. See docs/API_REFERENCE.md.",
+              "additionalProperties": true
+            },
+            "repository": {
+              "type": "string",
+              "description": "For action=run: Git repository path (e.g. OpseraEngineering/opsera-mcp) for per-step branch override. Used with branch to auto-build settings.stepParameters[repo].branch. Omit to target the workflow source branch instead."
+            },
+            "branch": {
+              "type": "string",
+              "description": "For action=run: Git branch name to override at runtime. Without repository: sets settings.branch (workflow source). With repository: sets stepParameters[repo].branch (per-step override)."
+            },
+            "imageRepository": {
+              "type": "string",
+              "description": "For action=run with single image: image repository name (e.g. tt1, my-app) as stepParameters key. Optional — auto-extracted from repositoryTag URI when omitted."
+            },
+            "repositoryTag": {
+              "type": "string",
+              "description": "For action=run with single image: full container image URI with tag (e.g. 123456.dkr.ecr.us-east-1.amazonaws.com/tt1:5). Auto-extracts image repo name as stepParameters key. For multiple images use imageTags instead."
+            },
+            "imageTags": {
+              "type": "object",
+              "description": "For action=run with multiple ArgoCD image overrides: map of image names to tags. Example: {\"Akamai\":\"91348cd1\",\"to-sdlc_impl2\":\"397e4e5c\"}. Tags can be short (expanded to fully qualified URIs from the step config) or full URIs. The handler fetches the pipeline config to resolve image repo keys and populate stepParameters. For JFrog, keys are auto-formatted as repoName | imageName.",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "payload": {
+              "type": "object",
+              "description": "For operation action: (reject) reason; (run) additional execution payload passed to the orchestrator.",
+              "additionalProperties": true
+            },
+            "body": {
+              "type": "object",
+              "description": "Request body for validate, step_metadata, and other POST operations.",
+              "additionalProperties": true
+            },
+            "pipelineId": {
+              "type": "string",
+              "description": "Required for get, list_runs, get_run; also for runs_stats when querying a single pipeline. MongoDB ObjectId."
+            },
+            "pipelineIds": {
+              "type": "string",
+              "description": "Comma-separated MongoDB ObjectIds for security_audit or runs_stats batch (max 50). For runs_stats use pipelineId or pipelineIds."
+            },
+            "runCount": {
+              "type": "string",
+              "description": "Required for get_run. Run number from list_runs (e.g. latest runCount)."
+            },
+            "pageSize": {
+              "type": "string",
+              "description": "Query for list or security_audit scan: items per page (default 50, max 200)."
+            },
+            "limit": {
+              "type": "string",
+              "description": "list_runs: recent runs (5-10, default 5). runs_stats and security_audit includeStats: recent runs to average (5-100, default 30)."
+            },
+            "view": {
+              "type": "string",
+              "description": "For get: full (default), summary, or security. For get_run: full, summary, artifacts (default), or logs."
+            },
+            "includeLogs": {
+              "type": [
+                "null",
+                "boolean"
+              ],
+              "description": "For get_run only. When true, request view=full with console logs. Ignored when view is set. Default uses view=artifacts."
+            },
+            "disabledOnly": {
+              "type": [
+                "null",
+                "boolean"
+              ],
+              "description": "For security_audit. When true (API default), only pipelines with at least one disabled security step."
+            },
+            "includeStats": {
+              "type": [
+                "null",
+                "boolean"
+              ],
+              "description": "For security_audit. When true, attach runStats (average/min/max duration) per returned pipeline. Use for average execution time where security steps are disabled."
+            },
+            "templateId": {
+              "type": "string",
+              "description": "For operation=templates_get: pipeline template ID (24-char alphanumeric)."
+            },
+            "page": {
+              "type": "string",
+              "description": "Query: list, templates_list, or security_audit page number (default 1)."
+            },
+            "size": {
+              "type": "string",
+              "description": "Query: templates_list items per page (default 25)."
+            },
+            "sort": {
+              "type": "string",
+              "description": "Query: templates_list. One of: newest, oldest, name, lastupdated."
+            },
+            "search": {
+              "type": "string",
+              "description": "Query: list or templates_list keyword filter on name and description."
+            },
+            "type": {
+              "type": "string",
+              "description": "Query: templates_list template type filter."
+            },
+            "status": {
+              "type": "string",
+              "description": "Query: list filters by last run status; templates_list filters active or inactive."
+            }
+          },
+          "required": [
+            "operation"
+          ],
+          "additionalProperties": false
+        },
+        "name": "opsera_pipelines"
+      },
+      {
+        "description": "Projects: list, get, create, update. See docs/API_REFERENCE.md for operations.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "operation": {
+              "type": "string",
+              "description": "One of: list, get, create, update"
+            },
+            "projectId": {
+              "type": "string",
+              "description": "Required for get/update. Path parameter."
+            },
+            "body": {
+              "type": "object",
+              "description": "Request body for create/update.",
+              "additionalProperties": true
+            }
+          },
+          "required": [
+            "operation"
+          ],
+          "additionalProperties": false
+        },
+        "name": "opsera_projects"
+      },
+      {
+        "description": "Reports and logs: reports_tasks_created, reports_pipelines_created, logs_audit_user, logs_task. See docs/API_REFERENCE.md.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "operation": {
+              "type": "string",
+              "description": "One of: reports_tasks_created, reports_pipelines_created, logs_audit_user, logs_task"
+            },
+            "start_date": {
+              "type": "string",
+              "description": "Query: reports."
+            },
+            "end_date": {
+              "type": "string",
+              "description": "Query: reports."
+            },
+            "period": {
+              "type": "string",
+              "description": "Query: reports."
+            },
+            "group_by": {
+              "type": "string",
+              "description": "Query: reports."
+            },
+            "include_data": {
+              "type": "string",
+              "description": "Query: reports."
+            },
+            "page": {
+              "type": "string",
+              "description": "Query: logs_audit_user."
+            },
+            "page_size": {
+              "type": "string",
+              "description": "Query: logs_audit_user."
+            },
+            "start_time": {
+              "type": "string",
+              "description": "Query: logs_audit_user."
+            },
+            "end_time": {
+              "type": "string",
+              "description": "Query: logs_audit_user."
+            },
+            "user_id": {
+              "type": "string",
+              "description": "Query: logs_audit_user."
+            },
+            "user_email": {
+              "type": "string",
+              "description": "Query: logs_audit_user."
+            },
+            "type": {
+              "type": "string",
+              "description": "Query: logs_audit_user."
+            },
+            "action": {
+              "type": "string",
+              "description": "Query: logs_audit_user."
+            },
+            "secondary_action": {
+              "type": "string",
+              "description": "Query: logs_audit_user."
+            },
+            "target_id": {
+              "type": "string",
+              "description": "Query: logs_audit_user."
+            },
+            "body": {
+              "type": "object",
+              "description": "Request body for logs_task.",
+              "additionalProperties": true
+            }
+          },
+          "required": [
+            "operation"
+          ],
+          "additionalProperties": false
+        },
+        "name": "opsera_reports_and_logs"
+      },
+      {
+        "description": "Cross-entity discovery and platform settings. search finds pipeline, task, or registry records by name or ID and returns lightweight metadata only — not execution history, artifacts, durations, or full stage configuration (use opsera_pipelines for those). org_hierarchy and settings_tasks for organizational mapping and task configuration updates. See docs/API_REFERENCE.md.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "operation": {
+              "type": "string",
+              "description": "One of search, org_hierarchy, settings_tasks. search: cross-entity discovery by name or ID. org_hierarchy: org and project mapping. settings_tasks: bulk task settings updates."
+            },
+            "s": {
+              "type": "string",
+              "description": "search: query string (name, description, or ID fragment). Omit with t set to list all accessible entities of that type."
+            },
+            "t": {
+              "type": "string",
+              "description": "search: required entity type — pipeline, task, or registry. Returns lightweight metadata only (id, name, tags, owner); not run history, artifacts, or full configuration."
+            },
+            "regex": {
+              "type": [
+                "null",
+                "boolean"
+              ],
+              "description": "search: enable regex matching."
+            },
+            "count": {
+              "type": [
+                "null",
+                "number"
+              ],
+              "description": "search: max results (default 100)."
+            },
+            "field": {
+              "type": "string",
+              "description": "search: limit match to name, description, tags, or owner."
+            },
+            "c": {
+              "type": "string",
+              "description": "search: category filter (pipeline type, task category, or tool identifier)."
+            },
+            "m": {
+              "type": "string",
+              "description": "search: exact-match field, e.g. _id for lookup by MongoDB ObjectId."
+            },
+            "body": {
+              "type": "object",
+              "description": "Request body for org_hierarchy and settings_tasks.",
+              "additionalProperties": true
+            }
+          },
+          "required": [
+            "operation"
+          ],
+          "additionalProperties": false
+        },
+        "name": "opsera_search_data_settings"
+      },
+      {
+        "description": "Tasks: list, create, status, lookup; lifecycle mutations via operation=action (run, stop, create, update, status). See docs/API_REFERENCE.md.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "operation": {
+              "type": "string",
+              "description": "One of: list, create, create_batch, task_status, tasks_lookup, tasks_status, action"
+            },
+            "action": {
+              "type": "string",
+              "description": "For operation=action: status, create, update, run, stop."
+            },
+            "target": {
+              "type": "string",
+              "description": "For operation=action: task ID or comma-separated IDs (optional for create)."
+            },
+            "settings": {
+              "type": "object",
+              "description": "For operation=action with action=update: task settings.",
+              "additionalProperties": true
+            },
+            "payload": {
+              "type": "object",
+              "description": "For operation=action: optional extra payload.",
+              "additionalProperties": true
+            },
+            "body": {
+              "type": "object",
+              "description": "Request body for other operations; or for action use action/target/settings/payload.",
+              "additionalProperties": true
+            }
+          },
+          "required": [
+            "operation"
+          ],
+          "additionalProperties": false
+        },
+        "name": "opsera_tasks"
+      },
+      {
+        "description": "Tools & registry: identifiers, registry, scm_repositories, scm_branches, registry_configurations. See docs/API_REFERENCE.md.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "operation": {
+              "type": "string",
+              "description": "One of: identifiers, registry, scm_repositories, scm_branches, registry_configurations"
+            },
+            "status": {
+              "type": "string",
+              "description": "Query: identifiers."
+            },
+            "type": {
+              "type": "string",
+              "description": "Query: identifiers."
+            },
+            "usage": {
+              "type": "string",
+              "description": "Query: identifiers."
+            },
+            "enabledInToolRegistry": {
+              "type": [
+                "null",
+                "boolean"
+              ],
+              "description": "Query: identifiers."
+            },
+            "search": {
+              "type": "string",
+              "description": "Query: identifiers, registry."
+            },
+            "fields": {
+              "type": [
+                "null",
+                "array"
+              ],
+              "items": {
+                "type": "string"
+              },
+              "description": "Query: identifiers, registry."
+            },
+            "tool_identifier": {
+              "type": "string",
+              "description": "Query: registry."
+            },
+            "body": {
+              "type": "object",
+              "description": "Request body for scm_repositories, scm_branches, registry_configurations.",
+              "additionalProperties": true
+            }
+          },
+          "required": [
+            "operation"
+          ],
+          "additionalProperties": false
+        },
+        "name": "opsera_tools"
+      },
+      {
+        "description": "User management: get_current, get, list (optional active=true|false), create, delete. See docs/API_REFERENCE.md.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "operation": {
+              "type": "string",
+              "description": "One of: get_current, get, list, create, delete."
+            },
+            "userId": {
+              "type": "string",
+              "description": "Required for get/delete. Path parameter (MongoDB ObjectId or email)."
+            },
+            "search": {
+              "type": "string",
+              "description": "Query param for get_current and list (e.g. email=user@company.com)."
+            },
+            "id": {
+              "type": "string",
+              "description": "Query param for list (comma-separated user IDs)."
+            },
+            "active": {
+              "type": "string",
+              "description": "Optional for list. true or false. Omit to default to active users (true). Use false for deactivated users."
+            },
+            "body": {
+              "type": "object",
+              "description": "Request body for create.",
+              "additionalProperties": true
+            }
+          },
+          "required": [
+            "operation"
+          ],
+          "additionalProperties": false
+        },
+        "name": "opsera_users"
+      }
+    ]
+  }
+}
