@@ -18,30 +18,47 @@ clients:
 - Claude Desktop
 - Cursor
 tools:
-- name: opsera_pipelines
-  description: List, view, start, stop, clone, reset, and delete pipelines.
-- name: create_pipeline
-  description: Build new SDLC pipelines from natural language descriptions.
-- name: opsera_tasks
-  description: Manage standalone task execution.
-- name: opsera_tools
-  description: View and manage connected integrations.
-- name: discover_tools
-  description: Discover available integration types.
-- name: opsera_projects
-  description: Organize and manage projects and access.
 - name: opsera_groups
-  description: Organize and manage groups and access.
-- name: opsera_users
-  description: View organization users and roles.
+  description: 'Group management: list, get, create, delete, get_memberships, add/remove/patch members.
+    See docs/API_REFERENCE.md.'
 - name: opsera_insights
-  description: Retrieve analytics and trend data.
-- name: opsera_reports_and_logs
-  description: Fetch detailed logs and audit trails.
-- name: search_opsera
-  description: Natural language search across Opsera resources.
+  description: 'Insights: dashboards, filters, audit logs, KPIs, tool mappings. See docs/API_REFERENCE.md
+    for all operations.'
 - name: opsera_mappings
-  description: Manage environment and variable mappings.
+  description: 'Data mappings: list, get, create, update. See docs/API_REFERENCE.md.'
+- name: opsera_pipeline_parameters
+  description: 'Pipeline parameters: reusable, configurable key-value pairs scoped to a pipeline. Parameters
+    can be referenced by pipeline steps during execution for dynamic configuration (environment variables,
+    secrets, build flags, deployment targets). Use list to see all parameters for a pipeline before triggering
+    a run. Use create/update to set runtime values. Use get_value for lightweight value retrieval. Parameter
+    types: string (default), number, boolean, secret (masked in logs). See docs/API_REFERENCE.md.'
+- name: opsera_pipelines
+  description: 'Pipelines: monitor runs, security audit, run duration stats, configuration, templates,
+    and lifecycle actions. Execution questions (image tag, artifact, commit SHA): list_runs then get_run
+    (view=artifacts by default). Do not call get afterward. security_audit: find pipelines with disabled
+    security steps; set includeStats=true to include each pipeline average/min/max run duration. runs_stats:
+    average/min/max run duration for one pipelineId or batch pipelineIds (no security filter). get with
+    view=security audits one known pipeline; get without view is full config (large). list is a lightweight
+    catalog. list_runs is recent run timing. action runs mutations. See docs/API_REFERENCE.md.'
+- name: opsera_projects
+  description: 'Projects: list, get, create, update. See docs/API_REFERENCE.md for operations.'
+- name: opsera_reports_and_logs
+  description: 'Reports and logs: reports_tasks_created, reports_pipelines_created, logs_audit_user, logs_task.
+    See docs/API_REFERENCE.md.'
+- name: opsera_search_data_settings
+  description: Cross-entity discovery and platform settings. search finds pipeline, task, or registry
+    records by name or ID and returns lightweight metadata only — not execution history, artifacts, durations,
+    or full stage configuration (use opsera_pipelines for those). org_hierarchy and settings_tasks for
+    organizational mapping and task configuration updates. See docs/API_REFERENCE.md.
+- name: opsera_tasks
+  description: 'Tasks: list, create, status, lookup; lifecycle mutations via operation=action (run, stop,
+    create, update, status). See docs/API_REFERENCE.md.'
+- name: opsera_tools
+  description: 'Tools & registry: identifiers, registry, scm_repositories, scm_branches, registry_configurations.
+    See docs/API_REFERENCE.md.'
+- name: opsera_users
+  description: 'User management: get_current, get, list (optional active=true|false), create, delete.
+    See docs/API_REFERENCE.md.'
 notes: Official hosted remote MCP server for the Opsera Unified DevOps Platform. Docs also reference MCP
   Pipeline Tool Discovery & Validation APIs on the REST platform.
 deployment:
@@ -78,3 +95,4 @@ tool_quality:
   scored: false
   note: Facts from the saved tools/list capture (mcp_tool_quality.py); recorded, not scored. Checks learned
     from Glimind's agent-readiness audit.
+tools_count: 11
